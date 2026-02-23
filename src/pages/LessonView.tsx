@@ -109,32 +109,151 @@ const LessonView = () => {
         {currentStep === "intro" && (
           <motion.div
             key="intro"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0, y: -20 }}
-            className="text-center space-y-6"
+            className="space-y-5"
           >
-            <motion.img
-              src={mascot}
-              alt="Py the Python"
-              className="w-28 h-28 mx-auto"
-              initial={{ scale: 0, rotate: -20 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: "spring", bounce: 0.5 }}
-            />
-            <div className="bg-card rounded-2xl p-6 border border-border">
-              <p className="text-xs text-primary font-bold mb-2">🐍 Py the Python says...</p>
-              <p className="text-foreground text-lg leading-relaxed">
-                Hey there, future coder! 🎉 Today you'll write your <span className="text-primary font-bold">very first line of code</span>! 
-                Every expert started right here. Ready? Let's gooooo! 🚀
-              </p>
+            {/* Mascot bounce in */}
+            <div className="flex justify-center">
+              <motion.img
+                src={mascot}
+                alt="Py the Python"
+                className="w-24 h-24"
+                initial={{ scale: 0, rotate: -30, y: -60 }}
+                animate={{ scale: 1, rotate: 0, y: 0 }}
+                transition={{ type: "spring", bounce: 0.6, duration: 0.8 }}
+              />
             </div>
-            <button
-              onClick={advance}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-display font-bold px-8 py-3 rounded-xl transition-colors text-lg"
+
+            {/* Speech bubble with typewriter feel */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="bg-card rounded-2xl p-5 border border-border relative"
             >
-              I'm Ready! 💪
-            </button>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-card border-l border-t border-border rotate-45" />
+              <p className="text-xs text-primary font-bold mb-2">🐍 Py says...</p>
+              <motion.p
+                className="text-foreground text-base leading-relaxed"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.7 }}
+              >
+                Hey future coder! 🎉 Today you'll write your <span className="text-primary font-bold">very first line of code!</span>
+              </motion.p>
+            </motion.div>
+
+            {/* Animated "What is Programming?" card */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.0, type: "spring" }}
+              className="bg-card rounded-2xl border border-primary/30 overflow-hidden"
+            >
+              <div className="bg-primary/15 px-4 py-2.5 flex items-center gap-2">
+                <motion.span
+                  initial={{ rotate: -20 }}
+                  animate={{ rotate: [0, -10, 0] }}
+                  transition={{ delay: 1.3, duration: 0.5 }}
+                  className="text-lg"
+                >📖</motion.span>
+                <span className="text-primary font-display font-bold text-sm">What is Programming?</span>
+              </div>
+              <div className="p-4 space-y-3">
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2 }}
+                  className="text-sm text-muted-foreground leading-relaxed"
+                >
+                  <span className="text-foreground font-bold">Programming</span> means giving instructions to a computer — like telling a friend what to do, but in a special language!
+                </motion.p>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.6 }}
+                  className="flex items-center gap-2 flex-wrap"
+                >
+                  {["Google", "Netflix", "Instagram", "Roblox"].map((app, i) => (
+                    <motion.span
+                      key={app}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 1.8 + i * 0.15, type: "spring", bounce: 0.5 }}
+                      className="bg-primary/15 text-primary px-3 py-1 rounded-full text-xs font-bold"
+                    >
+                      {app}
+                    </motion.span>
+                  ))}
+                  <span className="text-xs text-muted-foreground">all use Python! 🐍</span>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Animated analogy card */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.8, type: "spring" }}
+              className="bg-card rounded-2xl border border-accent/30 overflow-hidden"
+            >
+              <div className="bg-accent/15 px-4 py-2.5 flex items-center gap-2">
+                <motion.span
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{ delay: 2.2, duration: 0.6, repeat: 1 }}
+                  className="text-lg"
+                >💭</motion.span>
+                <span className="text-accent font-display font-bold text-sm">Think of it like...</span>
+              </div>
+              <div className="p-4">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 2.2 }}
+                  className="space-y-2"
+                >
+                  <p className="text-sm text-muted-foreground">Making a sandwich 🥪:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["1. Get bread 🍞", "2. Spread butter 🧈", "3. Add cheese 🧀", "4. Done! ✅"].map((step, i) => (
+                      <motion.span
+                        key={step}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 2.4 + i * 0.2 }}
+                        className="bg-muted px-3 py-1.5 rounded-lg text-xs font-mono text-foreground"
+                      >
+                        {step}
+                      </motion.span>
+                    ))}
+                  </div>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 3.2 }}
+                    className="text-sm text-secondary font-bold pt-1"
+                  >
+                    Code = steps for a computer to follow! 🖥️
+                  </motion.p>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 3.4 }}
+              className="flex justify-center pt-2"
+            >
+              <button
+                onClick={advance}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-display font-bold px-8 py-3 rounded-xl transition-colors text-lg animate-pulse-glow"
+              >
+                I'm Ready! 💪
+              </button>
+            </motion.div>
           </motion.div>
         )}
 
