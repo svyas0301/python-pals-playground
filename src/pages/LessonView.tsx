@@ -257,100 +257,81 @@ const LessonView = () => {
           </motion.div>
         )}
 
-        {/* ===== 2. MISSION CARD ===== */}
-        {currentStep === "mission" && (
+        {/* ===== 2. MISSION + CODE (combined) ===== */}
+        {(currentStep === "mission" || currentStep === "code") && (
           <motion.div
-            key="mission"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="space-y-6"
-          >
-            <div className="bg-gradient-to-br from-primary/20 to-accent/10 rounded-2xl p-8 border border-primary/30 text-center space-y-4">
-              <div className="inline-flex items-center gap-2 bg-primary/20 text-primary px-4 py-1.5 rounded-full text-sm font-bold">
-                <Sparkles className="w-4 h-4" /> YOUR MISSION
-              </div>
-              <h2 className="font-display text-3xl font-bold text-foreground">
-                Make the Computer Talk! 📢
-              </h2>
-              <p className="text-muted-foreground max-w-md mx-auto leading-relaxed">
-                Use Python's <code className="bg-muted px-2 py-0.5 rounded text-secondary font-mono text-sm">print()</code> command 
-                to make the computer say <span className="text-accent font-bold">"Hello, World!"</span>
-              </p>
-              <div className="flex items-center justify-center gap-3 pt-2">
-                <div className="flex items-center gap-1.5 bg-card px-3 py-1.5 rounded-lg border border-border text-sm">
-                  <Zap className="w-3.5 h-3.5 text-accent" />
-                  <span className="text-accent font-bold">+50 XP</span>
-                </div>
-                <div className="flex items-center gap-1.5 bg-card px-3 py-1.5 rounded-lg border border-border text-sm">
-                  <Trophy className="w-3.5 h-3.5 text-secondary" />
-                  <span className="text-secondary font-bold">Badge</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-center">
-              <button
-                onClick={advance}
-                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-display font-bold px-8 py-3 rounded-xl transition-colors text-lg"
-              >
-                Let's Code! 🧱
-              </button>
-            </div>
-          </motion.div>
-        )}
-
-        {/* ===== 3. CODE INTERACTION ===== */}
-        {currentStep === "code" && (
-          <motion.div
-            key="code"
-            initial={{ opacity: 0, y: 30 }}
+            key="mission-code"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             className="space-y-4"
           >
-            {/* Hint from Py */}
-            <div className="flex gap-3 items-start bg-card rounded-xl p-4 border border-border">
-              <img src={mascot} alt="Py" className="w-10 h-10 animate-float flex-shrink-0" />
-              <div>
-                <p className="text-xs text-primary font-bold mb-1">💡 Hint from Py</p>
+            {/* Compact Mission Banner */}
+            <div className="bg-gradient-to-r from-primary/20 to-accent/10 rounded-xl p-4 border border-primary/30 flex items-center gap-4">
+              <motion.img
+                src={mascot}
+                alt="Py"
+                className="w-12 h-12 flex-shrink-0"
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="inline-flex items-center gap-1 bg-primary/20 text-primary px-2.5 py-0.5 rounded-full text-xs font-bold">
+                    <Sparkles className="w-3 h-3" /> MISSION
+                  </span>
+                  <div className="flex items-center gap-1 bg-card px-2 py-0.5 rounded-full border border-border text-xs">
+                    <Zap className="w-3 h-3 text-accent" />
+                    <span className="text-accent font-bold">+50 XP</span>
+                  </div>
+                </div>
                 <p className="text-sm text-muted-foreground">
-                  Type <code className="bg-muted px-1.5 py-0.5 rounded text-secondary font-mono">print("Hello, World!")</code> and hit <strong className="text-foreground">Run Code</strong>!
+                  Use <code className="bg-muted px-1.5 py-0.5 rounded text-secondary font-mono text-xs">print()</code> to make the computer say <span className="text-accent font-bold">"Hello, World!"</span>
                 </p>
               </div>
             </div>
 
-            {/* Editor */}
+            {/* Target Output */}
+            <div className="bg-card rounded-xl border border-border p-3 flex items-center gap-3">
+              <span className="text-xs font-bold text-destructive">🎯 TARGET OUTPUT</span>
+              <code className="font-mono text-sm text-secondary">Hello, World!</code>
+            </div>
+
+            {/* Code Editor */}
             <div className="bg-card rounded-2xl border border-border overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-                <span className="font-display font-bold text-sm text-foreground">🧱 Code Editor</span>
+              <div className="flex items-center justify-between px-4 py-2.5 border-b border-border">
+                <span className="font-display font-bold text-sm text-foreground">💻 Your Code</span>
                 <div className="flex gap-2">
                   <button
                     onClick={() => { setCode(""); setOutput(""); setCodeCorrect(false); }}
                     className="flex items-center gap-1.5 bg-muted text-muted-foreground px-3 py-1.5 rounded-lg text-xs font-semibold hover:text-foreground transition-colors"
                   >
-                    <RotateCcw className="w-3 h-3" /> Clear
+                    <RotateCcw className="w-3 h-3" /> Reset
                   </button>
                   <button
                     onClick={handleRunCode}
                     className="flex items-center gap-1.5 bg-secondary text-secondary-foreground px-4 py-1.5 rounded-lg text-xs font-display font-bold hover:bg-secondary/90 transition-colors"
                   >
-                    <Play className="w-3 h-3" /> Run Code
+                    <Play className="w-3 h-3" /> Run Code ▶
                   </button>
                 </div>
               </div>
               <div className="grid md:grid-cols-2 divide-x divide-border">
-                <div className="p-4">
+                <div className="p-3">
                   <textarea
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
-                    className="w-full h-36 bg-transparent font-mono text-sm text-foreground focus:outline-none resize-none"
+                    className="w-full h-28 bg-transparent font-mono text-sm text-foreground focus:outline-none resize-none"
                     spellCheck={false}
+                    placeholder='print("Hello, World!")'
                   />
                 </div>
-                <div className="p-4 bg-muted/30">
-                  <p className="text-xs text-muted-foreground mb-2 font-bold">Output:</p>
-                  <pre className="font-mono text-sm text-secondary min-h-[100px]">
-                    {output || "Click 'Run Code' to see output here! 🚀"}
+                <div className="p-3 bg-muted/30">
+                  <p className="text-xs text-muted-foreground mb-1.5 font-bold">OUTPUT</p>
+                  <pre className="font-mono text-sm text-secondary min-h-[80px]">
+                    {output || (
+                      <span className="text-muted-foreground">👆 Click "Run Code ▶" to see what happens!</span>
+                    )}
                   </pre>
                 </div>
               </div>
@@ -359,15 +340,15 @@ const LessonView = () => {
             {/* Continue button (only if correct) */}
             {codeCorrect && (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
                 className="flex justify-center"
               >
                 <button
-                  onClick={advance}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-display font-bold px-8 py-3 rounded-xl transition-colors animate-pulse-glow"
+                  onClick={() => setFlowIndex(FLOW_ORDER.indexOf("success"))}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-display font-bold px-8 py-3 rounded-xl transition-colors animate-pulse-glow text-lg"
                 >
-                  It Worked! Continue 🎉
+                  Done! ✅ →
                 </button>
               </motion.div>
             )}
